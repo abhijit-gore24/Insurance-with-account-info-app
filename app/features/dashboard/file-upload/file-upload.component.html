@@ -1,0 +1,86 @@
+<div class="m-4">
+    <div>
+        <div class="d-flex justify-content-between">
+            <label class="mb-1">File Type</label>
+            <button type="button" class="btn btn-close p-0" (click)="onCloseClick()"></button>
+        </div>
+        <div class="row col-md-5 mx-0">
+            <select id="fileType" class="form-select" [(ngModel)]="selectedFileType">
+                <option value="" disabled selected>Select Option</option>
+                <option *ngFor="let option of fileTypeOptions.slice(1)" [value]="option.value">
+                    {{ option.label }}
+                </option>
+            </select>
+        </div>
+
+        <div class="upload-holder" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
+            <div class="row align-items-center">
+                <!-- File Upload Icon -->
+                <div class="col-md-2 ">
+                    <div class="file-icon">
+                    <img src="assets/images/file-upload-icon.svg" alt="File Upload"/>   
+                    </div>
+                </div>
+                <!-- Upload Text -->
+                <div class="col-md-7">
+                    <h6 class="fw-bold mb-1 text-dark">Choose file to upload</h6>
+                    <p class="text-muted mb-0 small">Select Zip, Excel, Doc, PDF</p>
+                </div>
+
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-link" (click)="triggerFileInput()">
+                        Browse
+                    </button>
+                </div>
+            </div>
+
+            <!-- Hidden File Input -->
+            <input type="file" #fileInput class="d-none" multiple accept=".zip,.xlsx,.xls,.doc,.docx,.pdf" (change)="onFileSelected($event)" />
+        </div>
+
+        <!-- File Size Information -->
+        <p class="my-2">
+            The files which you are uploading should be less than 2 MB.
+        </p>
+
+        <!-- Uploaded Files List -->
+        <div *ngIf="uploadedFiles.length > 0" class="mb-4 file-list">
+            <div class="list-group list-group-flush">
+                <div *ngFor="let file of uploadedFiles; let i = index" class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <!-- File Info -->
+                        <div class="d-flex align-items-center flex-grow-1">
+                            <i class="fas fa-caret-right me-2 text-dark"></i>
+
+                            <div class="flex-grow-1">
+                                <div class="fw-medium text-dark">{{ file.name }}</div>
+                            </div>
+                        </div>
+
+                        <!-- Status and Actions -->
+                        <div class="d-flex align-items-center">
+                            <!-- Loading Status -->
+                            <div class="me-3" *ngIf="file.uploading">
+                                <div class="d-flex align-items-center text-warning">
+                                    <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                                    <span class="small fw-medium">Loading</span>
+                                </div>
+                            </div>
+
+                            <!-- Success Status -->
+                            <div class="me-3" *ngIf="file.uploaded && !file.uploading">
+                                <i class="fas fa-check-circle text-success me-1"></i>
+                                <span class="text-success small fw-medium">Uploaded</span>
+                            </div>
+
+                            <button class="btn btn-sm" (click)="removeFile(i)" title="Delete file">
+                                 <img src="assets/images/delete-icon.svg" alt="File Upload"/>   
+                            </button>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

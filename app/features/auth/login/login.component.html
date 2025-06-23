@@ -1,0 +1,31 @@
+<div class="row login-wrapper">
+    <div class="col-md-6 hero-image">
+        <h1>Providing the Care So Your Loved Ones Live Life Fully</h1>
+    </div>
+    <div class="col-md-4">
+        <div class="illumifin-logo">
+            <img src="../../../../assets/images/illumifin-logo.svg" alt="illumifin" />
+        </div>
+        <div class="brand-logo">
+            <img src="../../../../assets/images/TA-logo.svg" alt="Transamerica" />
+        </div>
+        <form>
+
+            <label for="email" class="form-label">Email Id</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter your email" [(ngModel)]="email" (ngModelChange)="emailValid = true" />
+            <div *ngIf="!emailValid" class="text-danger">
+                Please enter a valid email address.
+            </div>
+            <div class="mb-5">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Enter your password" />
+            </div>
+        </form>
+        <button type="submit" class="btn btn-primary w-100" (click)="onLogin()">
+      Submit
+    </button>
+        <button type="submit" class="btn btn-primary w-100 mt-3" (click)="cnaLogin()">
+      CNA Login
+    </button>
+    </div>
+</div>

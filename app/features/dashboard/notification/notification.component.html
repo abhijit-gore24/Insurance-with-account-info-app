@@ -1,0 +1,61 @@
+<div class="m-2">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th width="3%">#</th>
+                    <th width="10%" (click)="toggleSort('date')" style="cursor: pointer;">
+                        Date
+                        <span>{{ sortDirection === 'asc' ? '↑' : '↓' }}</span>
+                    </th>
+                    <th width="40%" (click)="toggleSort('description')" style="cursor: pointer;">
+                        Description
+                        <span *ngIf="sortColumn === 'description'">{{ sortDirection === 'asc' ? '↑' : '↓' }}</span>
+                    </th>
+                    <th>Action</th>
+                    <th width="26%">Reject Reason</th>
+                </tr>
+            </thead>
+
+
+            <tbody>
+                <tr *ngFor="let n of paginatedUpdates; let i = index">
+                    <td class="fw-bold">{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+                    <td>{{ n.date }}</td>
+                    <td>{{ n.description }}</td>
+                    <td>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="action{{ i }}" id="approve{{ i }}" value="Approve" [(ngModel)]="n.action" />
+
+                            <label class="form-check-label" for="approve{{ i }}">Approve</label>
+                        </div>
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="action{{ i }}" id="reject{{ i }}" value="Reject" [(ngModel)]="n.action" />
+
+                            <label class="form-check-label" for="reject{{ i }}">Reject</label>
+                        </div>
+                    </td>
+
+                    <td>
+                        <textarea *ngIf="n.action === 'Reject'" class="form-control" [(ngModel)]="n.rejectReason" placeholder="Enter reason..." rows="3" style="overflow: hidden; resize: none" (input)="autoResize($event)"></textarea>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-between custom-tabs mt-4">
+            <nav *ngIf="totalPages > 1">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" *ngFor="let page of [].constructor(totalPages); let i = index" [class.active]="currentPage === i + 1">
+                        <button class="page-link" (click)="goToPage(i + 1)">
+              {{ i + 1 }}
+            </button>
+                    </li>
+                </ul>
+            </nav>
+            <div><button type="button" class="btn btn-light me-3" (click)="onCancel()">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
